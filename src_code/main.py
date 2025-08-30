@@ -5,23 +5,21 @@ def readSpatialDataReturnGeodataframe(inputPath):
     else:
         raise ValueError ("input file path is not a string")
     
-    from geopandas import read_file
+    import geopandas as gpd
     
-    inputGdf = read_file(inputPath)
+    inputGdf = gpd.read_file(inputPath)
+
+    if isinstance(inputGdf, gpd.GeoDataFrame):
+        pass
+    else:
+        raise ValueError ("object returned from readSpatialDataReturnGeodataframe is not a geodataframe")
 
     return inputGdf
     
 def printAllAttributeRows(inputPath):
 
     readSpatialDataReturnGeodataframe(inputPath)
-
-    from pandas import DataFrame
-
-    if isinstance(inputGdf, DataFrame):
-        pass
-    else:
-        raise ValueError ("object returned from readSpatialDataReturnGeodataframe is not a geodataframe")
-    
+   
     for row in inputGdf:
         print(row)
     
@@ -31,13 +29,8 @@ def projectCoordinatesOutputShapefile(inputPath, outputPath, EPSG=9473):
 
     readSpatialDataReturnGeodataframe(inputPath)
 
-    from pandas import DataFrame
-
-    if isinstance(inputGdf, DataFrame):
-        pass
-    else:
-        raise ValueError ("object returned from readSpatialDataReturnGeodataframe is not a geodataframe")
-    
+    import geopandas as gpd
+  
     if isinstance(outputPath, str):
         pass
     else:
@@ -53,7 +46,7 @@ def projectCoordinatesOutputShapefile(inputPath, outputPath, EPSG=9473):
     except Exception as e:
         print(".......Error.......\n", e)
     
-    if isinstance(projectedGdf, DataFrame):
+    if isinstance(projectedGdf, gpd.GeoDataFrame):
         pass
     else:
         raise ValueError ("projected object is not a geodataframe")
